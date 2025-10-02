@@ -110,7 +110,7 @@ class DictationApp(QWidget):
                 console_message = "📝 Texte copié dans le presse-papier"
 
             # Notification
-            NotificationManager.show_notification("Transcription terminée", notification_message)
+            # NotificationManager.show_notification("Transcription terminée", notification_message)
             print(console_message)
         
         # Réinitialiser l'état et cacher la fenêtre
