@@ -4,7 +4,7 @@ from PyQt6.QtWidgets import QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QChec
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFont
 
-from client_whisper.config import HOTKEY, PAUSE_HOTKEY, CANCEL_HOTKEY, TRANSCRIBE_PARTIAL_HOTKEY
+from client_whisper.config import HOTKEY, PAUSE_HOTKEY, CANCEL_HOTKEY
 
 class DictationUI:
     """Classe de gestion de l'interface utilisateur de l'application de dictée vocale"""
@@ -40,19 +40,16 @@ class DictationUI:
         
         # Boutons
         self.pause_button = QPushButton("⏸ Pause", self.parent)
-        self.partial_transcribe_button = QPushButton("🗒️ Canvas", self.parent)
         self.stop_button = QPushButton("🛑 Stop & Transcrire", self.parent)
         self.cancel_button = QPushButton("❌ Annuler", self.parent)
         
         # Labels des raccourcis
         self.main_shortcut_label = QLabel(f"• {HOTKEY} : Démarrer/Arrêter")
         self.pause_shortcut_label = QLabel(f"• {PAUSE_HOTKEY} : Pause/Reprendre")
-        self.partial_shortcut_label = QLabel(f"• {TRANSCRIBE_PARTIAL_HOTKEY} : Transcription partielle")
         self.cancel_shortcut_label = QLabel(f"• {CANCEL_HOTKEY} : Annuler")
         
         # Définir une hauteur minimale pour les boutons
-        for button in [self.pause_button, self.partial_transcribe_button, 
-                      self.stop_button, self.cancel_button]:
+        for button in [self.pause_button, self.stop_button, self.cancel_button]:
             button.setMinimumHeight(45)
     
     def setup_layout(self):
@@ -71,7 +68,6 @@ class DictationUI:
         
         # Ajouter les boutons
         self.main_layout.addWidget(self.pause_button)
-        self.main_layout.addWidget(self.partial_transcribe_button)
         self.main_layout.addWidget(self.stop_button)
         self.main_layout.addWidget(self.cancel_button)
         
@@ -83,7 +79,7 @@ class DictationUI:
         
         shortcut_style = "padding-left: 10px; color: #555;"
         for lbl in [self.main_shortcut_label, self.pause_shortcut_label, 
-                   self.partial_shortcut_label, self.cancel_shortcut_label]:
+                   self.cancel_shortcut_label]:
             lbl.setStyleSheet(shortcut_style)
             shortcuts_layout.addWidget(lbl)
             
@@ -113,23 +109,6 @@ class DictationUI:
             }
             QPushButton:pressed {
                 background-color: #3c5679;
-            }
-        """)
-        
-        self.partial_transcribe_button.setStyleSheet("""
-            QPushButton {
-                background-color: #34b4eb;
-                color: white;
-                border: none;
-                border-radius: 6px;
-                font-weight: bold;
-                padding: 8px;
-            }
-            QPushButton:hover {
-                background-color: #2a95c3;
-            }
-            QPushButton:pressed {
-                background-color: #207595;
             }
         """)
         

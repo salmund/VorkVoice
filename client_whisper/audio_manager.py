@@ -3,7 +3,7 @@
 import numpy as np
 import sounddevice as sd
 import wave
-from client_whisper.config import SAMPLERATE, CANAL, FICHIER_AUDIO, FICHIER_AUDIO_PARTIEL
+from client_whisper.config import SAMPLERATE, CANAL, FICHIER_AUDIO
 
 class AudioRecorder:
     def __init__(self):
@@ -41,24 +41,19 @@ class AudioRecorder:
         if self.recording:
             self.audio_data.append(indata.copy())
             
-    def save_to_file(self, partial=False):
+    def save_to_file(self):
         """Enregistrer les données audio dans un fichier WAV."""
         if not self.audio_data:
             return False
             
         try:
-            filename = FICHIER_AUDIO_PARTIEL if partial else FICHIER_AUDIO
             full_audio = np.concatenate(self.audio_data, axis=0)
-            with wave.open(filename, 'wb') as wf:
+            with wave.open(FICHIER_AUDIO, 'wb') as wf:
                 wf.setnchannels(CANAL)
                 wf.setsampwidth(2)
                 wf.setframerate(SAMPLERATE)
                 wf.writeframes(full_audio.tobytes())
             
-            # Optionnel: effacer les données si c'est une transcription partielle
-            if partial:
-                self.audio_data = []
-                
             return True
                 
         except Exception as e:
