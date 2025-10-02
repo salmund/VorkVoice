@@ -26,7 +26,7 @@ class DictationApp(QWidget):
         
         # Configuration de base de la fenêtre
         self.setWindowTitle("Dictée vocale")
-        self.setGeometry(100, 100, 380, 320)
+        self.setGeometry(100, 100, 380, 360)
         self.setWindowFlags(Qt.WindowType.WindowStaysOnTopHint)  # Toujours au premier plan
         
         # Style global de l'application
