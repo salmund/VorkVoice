@@ -138,7 +138,6 @@ class DictationApp(QWidget):
         # Désactiver les raccourcis spéciaux
         self.hotkey_handler.remove_cancel_hotkey()
         self.hotkey_handler.remove_pause_hotkey()
-        self.hotkey_handler.remove_partial_transcribe_hotkey()
         
         # Arrêter l'enregistrement
         self.recording_manager.stop_recording()
