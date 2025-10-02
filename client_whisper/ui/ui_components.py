@@ -43,6 +43,7 @@ class DictationUI:
         self.partial_transcribe_button = QPushButton("🗒️ Canvas", self.parent)
         self.stop_button = QPushButton("🛑 Stop & Transcrire", self.parent)
         self.cancel_button = QPushButton("❌ Annuler", self.parent)
+        self.settings_button = QPushButton("⚙️ Dictionnaire", self.parent)
         
         # Labels des raccourcis
         self.main_shortcut_label = QLabel(f"• {HOTKEY} : Démarrer/Arrêter")
@@ -52,7 +53,7 @@ class DictationUI:
         
         # Définir une hauteur minimale pour les boutons
         for button in [self.pause_button, self.partial_transcribe_button, 
-                      self.stop_button, self.cancel_button]:
+                      self.stop_button, self.cancel_button, self.settings_button]:
             button.setMinimumHeight(45)
     
     def setup_layout(self):
@@ -74,6 +75,7 @@ class DictationUI:
         self.main_layout.addWidget(self.partial_transcribe_button)
         self.main_layout.addWidget(self.stop_button)
         self.main_layout.addWidget(self.cancel_button)
+        self.main_layout.addWidget(self.settings_button)
         
         # Ajouter les labels pour les raccourcis
         shortcuts_layout = QVBoxLayout()
@@ -164,6 +166,23 @@ class DictationUI:
             }
             QPushButton:pressed {
                 background-color: #bd2130;
+            }
+        """)
+        
+        self.settings_button.setStyleSheet("""
+            QPushButton {
+                background-color: #6c757d;
+                color: white;
+                border: none;
+                border-radius: 6px;
+                font-weight: bold;
+                padding: 8px;
+            }
+            QPushButton:hover {
+                background-color: #5a6268;
+            }
+            QPushButton:pressed {
+                background-color: #545b62;
             }
         """)
         
