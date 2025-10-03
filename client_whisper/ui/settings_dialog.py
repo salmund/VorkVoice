@@ -112,6 +112,7 @@ class SettingsDialog(QDialog):
             }
             QTableWidget::item {
                 padding: 5px;
+                color: #333333; /* Assure que le texte est sombre */
             }
         """)
         layout.addWidget(self.table)
