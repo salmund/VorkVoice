@@ -188,8 +188,8 @@ class DictationApp(QWidget):
         # Arrêter l'enregistrement
         self.recording_manager.stop_recording()
         
-        print("❌ Enregistrement annulé")
-        NotificationManager.show_notification("Enregistrement annulé", "L'enregistrement a été annulé", 2000)
+        # print("❌ Enregistrement annulé")
+        # NotificationManager.show_notification("Enregistrement annulé", "L'enregistrement a été annulé", 2000)
                 
         # Cacher la fenêtre
         self.hide()
