@@ -4,7 +4,7 @@ from PyQt6.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout, QPushButton,
                              QTableWidget, QTableWidgetItem, QLabel, QLineEdit,
                              QMessageBox, QHeaderView)
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QFont
+from PyQt6.QtGui import QFont, QColor
 
 from client_whisper.user_mappings import UserMappingsManager
 
@@ -109,6 +109,7 @@ class SettingsDialog(QDialog):
                 border: 1px solid #cccccc;
                 border-radius: 5px;
                 background-color: white;
+                color: #333333;
             }
             QTableWidget::item {
                 padding: 5px;
@@ -156,15 +157,21 @@ class SettingsDialog(QDialog):
         self.setStyleSheet("""
             QDialog {
                 background-color: #f5f5f7;
+                color: #333333;
             }
             QLineEdit {
                 border: 1px solid #cccccc;
                 border-radius: 5px;
                 padding: 5px 10px;
                 background-color: white;
+                color: #333333;
             }
             QLineEdit:focus {
                 border: 2px solid #007bff;
+            }
+            QTableWidget {
+                background-color: white;
+                color: #333333;
             }
         """)
     

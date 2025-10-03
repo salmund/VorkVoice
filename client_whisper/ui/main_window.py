@@ -11,6 +11,7 @@ from client_whisper.ui.managers.recording_manager import RecordingManager
 from client_whisper.ui.managers.notification_manager import NotificationManager
 from client_whisper.ui.managers.partial_transcription_manager import PartialTranscriptionManager
 from client_whisper.ui.settings_dialog import SettingsDialog
+from client_whisper.text_processor import TextProcessor
 
 
 class DictationApp(QWidget):
@@ -119,6 +120,9 @@ class DictationApp(QWidget):
             # Récupérer le texte final
             final_text = self.partial_manager.get_partial_text()
             
+            # Appliquer les mappings sur le texte final
+            final_text = TextProcessor.apply_mappings(final_text)
+            
             # Copier directement dans le presse-papier
             pyperclip.copy(final_text)
             
@@ -135,7 +139,7 @@ class DictationApp(QWidget):
                 console_message = "📝 Document copié dans le presse-papier"
                 
             # Notification
-            NotificationManager.show_notification("Document terminé", notification_message)
+            # NotificationManager.show_notification("Document terminé", notification_message)
             print(console_message)
             
         else:
@@ -146,6 +150,9 @@ class DictationApp(QWidget):
             texte = self.recording_manager.transcribe_recording()
             
             if texte:
+                # Appliquer les mappings sur le texte transcrit
+                texte = TextProcessor.apply_mappings(texte)
+                
                 # Copier dans le presse-papier
                 pyperclip.copy(texte)
                 
@@ -159,7 +166,7 @@ class DictationApp(QWidget):
                     console_message = "📝 Texte copié dans le presse-papier"
 
                 # Notification
-                NotificationManager.show_notification("Transcription terminée", notification_message)
+                # NotificationManager.show_notification("Transcription terminée", notification_message)
                 print(console_message)
         
         # Réinitialiser l'état et cacher la fenêtre
