@@ -6,7 +6,7 @@ list_mapping = [
     ("1000000", "un million"),
     ("1000", "mille"),
     ("Maya", "Maïa"),
-    ("diteslemoi, ""dites-le-moi"),
+    ("diteslemoi", "dites-le-moi"),
     ("Sous-titrage Société Radio-Canada", ""),
     ("chaque GPT", "ChatGPT"),
     ("Sous-titres par Jérémy Diaz.", ""),

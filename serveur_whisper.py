@@ -6,8 +6,20 @@ from faster_whisper import WhisperModel
 import soundfile as sf
 import io
 import numpy as np
+import sys
+import os
+from pathlib import Path
+
+# Ajouter le chemin du client pour accéder au gestionnaire de mappings
+sys.path.insert(0, str(Path(__file__).parent))
+
+from mappings import list_mapping
+from client_whisper.user_mappings import UserMappingsManager
 
 app = FastAPI()
+
+# Gestionnaire de mappings utilisateur
+mappings_manager = UserMappingsManager()
 
 # 🔥 Charger le modèle Whisper UNE FOIS au démarrage
 USE_GPU = torch.cuda.is_available()
@@ -38,27 +50,24 @@ async def transcribe_audio(audio: UploadFile = File(...)):
     # Normalisation plus rapide
     audio_array = audio_array.astype(np.float32) / np.max(np.abs(audio_array))
 
-    # liste pour mapper des mots qu'on souhaite remplacer systématiquement
-    # exemple 1000000000 -> un milliard
-    # exemple maya -> maïa
-
-    list_mapping = [
-        ("1000000000", "un milliard"),
-        ("1000000", "un million"),
-        ("1000", "mille"),
-        ("Maya", "Maïa")
-    ]
     # 🔥 Transcription
     segments, info = model.transcribe(audio_array, beam_size=2)
 
     # 🔥 Extraction du texte
     texte = " ".join(segment.text for segment in segments).replace("  ", "\n")
 
-    # 🔥 Remplacement des mots
-    for mapping in list_mapping:
+    # 🔥 Remplacement des mots (chargement dynamique des mappings)
+    all_mappings = mappings_manager.get_all_mappings()
+    for mapping in all_mappings:
         texte = texte.replace(mapping[0], mapping[1])
 
     print(f"✅ Transcription : {texte}")
     return {"text": texte}
+
+@app.get("/health")
+async def health_check():
+    """Endpoint pour vérifier que le serveur fonctionne"""
+    return {"status": "ok", "mappings_count": len(mappings_manager.get_all_mappings())}
+
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000)

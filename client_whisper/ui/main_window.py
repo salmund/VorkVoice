@@ -10,6 +10,7 @@ from client_whisper.ui.ui_components import DictationUI
 from client_whisper.ui.managers.recording_manager import RecordingManager
 from client_whisper.ui.managers.notification_manager import NotificationManager
 from client_whisper.ui.managers.partial_transcription_manager import PartialTranscriptionManager
+from client_whisper.ui.settings_dialog import SettingsDialog
 
 
 class DictationApp(QWidget):
@@ -25,7 +26,7 @@ class DictationApp(QWidget):
         
         # Configuration de base de la fenêtre
         self.setWindowTitle("Dictée vocale")
-        self.setGeometry(100, 100, 380, 320)
+        self.setGeometry(100, 100, 380, 360)
         self.setWindowFlags(Qt.WindowType.WindowStaysOnTopHint)  # Toujours au premier plan
         
         # Style global de l'application
@@ -69,6 +70,7 @@ class DictationApp(QWidget):
         self.ui.partial_transcribe_button.clicked.connect(self.partial_transcribe)
         self.ui.stop_button.clicked.connect(self.stop_recording)
         self.ui.cancel_button.clicked.connect(self.cancel_recording)
+        self.ui.settings_button.clicked.connect(self.open_settings)
         
     def start_recording(self):
         """Démarre l'enregistrement"""
@@ -192,6 +194,11 @@ class DictationApp(QWidget):
         # Cacher la fenêtre
         self.hide()
         self.recording = True
+        
+    def open_settings(self):
+        """Ouvre la fenêtre de paramètres"""
+        settings_dialog = SettingsDialog(self)
+        settings_dialog.exec()
         
     def closeEvent(self, event):
         """Gestion de la fermeture de la fenêtre"""
