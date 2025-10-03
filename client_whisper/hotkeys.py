@@ -38,16 +38,16 @@ class HotkeyHandler(QObject):
     def _check_main_hotkey(self):
         """Vérifie périodiquement que le raccourci principal est toujours actif et le ré-enregistre si nécessaire"""
         try:
-            # Si le raccourci devrait être enregistré mais ne l'est pas, le ré-enregistrer
-            if self.main_hooked:
-                # Tenter de supprimer et ré-enregistrer le raccourci
-                try:
-                    keyboard.remove_hotkey(HOTKEY)
-                except:
-                    pass  # Le raccourci n'existait peut-être plus
-                
-                self.main_hooked = False
-                self.setup_hotkey()
+            # Toujours tenter de ré-enregistrer le raccourci pour assurer sa persistance
+            # Supprimer l'ancien hook si présent
+            try:
+                keyboard.remove_hotkey(HOTKEY)
+            except:
+                pass  # Le raccourci n'existait peut-être plus
+            
+            # Ré-enregistrer le raccourci
+            self.main_hooked = False
+            self.setup_hotkey()
         except Exception as e:
             # En cas d'erreur, tenter simplement de ré-enregistrer
             print(f"⚠️ Tentative de ré-enregistrement du raccourci principal: {e}")
