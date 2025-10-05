@@ -2,7 +2,7 @@
 
 import pyperclip
 import keyboard
-from PyQt6.QtWidgets import QWidget
+from PyQt6.QtWidgets import QWidget, QMessageBox
 from PyQt6.QtCore import Qt
 
 from client_whisper.audio_manager import AudioRecorder
@@ -12,6 +12,7 @@ from client_whisper.ui.managers.notification_manager import NotificationManager
 from client_whisper.ui.managers.partial_transcription_manager import PartialTranscriptionManager
 from client_whisper.ui.settings_dialog import SettingsDialog
 from client_whisper.text_processor import TextProcessor
+from client_whisper.gemini_service import GeminiService
 
 
 class DictationApp(QWidget):
@@ -52,6 +53,9 @@ class DictationApp(QWidget):
         self.hotkey_handler = hotkey_handler
         self.audio_recorder = AudioRecorder()
         
+        # Services
+        self.gemini_service = GeminiService()
+        
         # Interface utilisateur
         self.ui = DictationUI(self)
         
@@ -69,6 +73,7 @@ class DictationApp(QWidget):
         """Connecte les événements de l'interface aux méthodes de l'application"""
         self.ui.pause_button.clicked.connect(self.toggle_pause)
         self.ui.partial_transcribe_button.clicked.connect(self.partial_transcribe)
+        self.ui.ai_process_button.clicked.connect(self.ai_process)
         self.ui.stop_button.clicked.connect(self.stop_recording)
         self.ui.cancel_button.clicked.connect(self.cancel_recording)
         self.ui.settings_button.clicked.connect(self.open_settings)
@@ -107,6 +112,54 @@ class DictationApp(QWidget):
     def partial_transcribe(self):
         """Gérer la transcription partielle"""
         self.recording = self.partial_manager.handle_partial_transcribe(self.recording)
+    
+    def ai_process(self):
+        """Traiter la transcription avec l'IA Gemini"""
+        # Vérifier qu'on a une transcription dans le presse-papiers
+        current_text = pyperclip.paste()
+        
+        if not current_text or current_text.strip() == "":
+            QMessageBox.warning(
+                self, 
+                "Pas de texte", 
+                "Aucune transcription disponible. Veuillez d'abord enregistrer et transcrire."
+            )
+            return
+        
+        # Afficher un message de progression
+        self.ui.update_status_label("🤖 Traitement IA en cours...")
+        
+        # Appeler le service Gemini
+        result = self.gemini_service.process_with_ai(current_text)
+        
+        if result:
+            # Copier le résultat dans le presse-papiers
+            pyperclip.copy(result)
+            
+            # Afficher un message de succès
+            QMessageBox.information(
+                self,
+                "Traitement IA terminé",
+                "Le résultat a été copié dans le presse-papiers.\n\n"
+                f"Longueur: {len(result)} caractères"
+            )
+            
+            # Si auto-paste est activé, coller automatiquement
+            if self.ui.is_autopaste_enabled():
+                keyboard.press_and_release('ctrl+v')
+                print("📝 Résultat IA collé automatiquement")
+            else:
+                print("📝 Résultat IA copié dans le presse-papiers")
+        else:
+            QMessageBox.warning(
+                self,
+                "Erreur IA",
+                "Impossible de traiter la transcription avec l'IA.\n"
+                "Vérifiez votre clé API dans les paramètres."
+            )
+        
+        # Réinitialiser le label de statut
+        self.ui.update_status_label("🗣 Enregistrement en cours...")
     
     def stop_recording(self):
         """Arrêter l'enregistrement et transcrire"""

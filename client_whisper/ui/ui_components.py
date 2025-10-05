@@ -41,6 +41,7 @@ class DictationUI:
         # Boutons
         self.pause_button = QPushButton("⏸ Pause", self.parent)
         self.partial_transcribe_button = QPushButton("🗒️ Canvas", self.parent)
+        self.ai_process_button = QPushButton("🤖 Traiter avec IA", self.parent)
         self.stop_button = QPushButton("🛑 Stop & Transcrire", self.parent)
         self.cancel_button = QPushButton("❌ Annuler", self.parent)
         self.settings_button = QPushButton("⚙️ Dictionnaire", self.parent)
@@ -53,7 +54,8 @@ class DictationUI:
         
         # Définir une hauteur minimale pour les boutons
         for button in [self.pause_button, self.partial_transcribe_button, 
-                      self.stop_button, self.cancel_button, self.settings_button]:
+                      self.ai_process_button, self.stop_button, 
+                      self.cancel_button, self.settings_button]:
             button.setMinimumHeight(45)
     
     def setup_layout(self):
@@ -73,6 +75,7 @@ class DictationUI:
         # Ajouter les boutons
         self.main_layout.addWidget(self.pause_button)
         self.main_layout.addWidget(self.partial_transcribe_button)
+        self.main_layout.addWidget(self.ai_process_button)
         self.main_layout.addWidget(self.stop_button)
         self.main_layout.addWidget(self.cancel_button)
         self.main_layout.addWidget(self.settings_button)
@@ -132,6 +135,23 @@ class DictationUI:
             }
             QPushButton:pressed {
                 background-color: #207595;
+            }
+        """)
+        
+        self.ai_process_button.setStyleSheet("""
+            QPushButton {
+                background-color: #8e44ad;
+                color: white;
+                border: none;
+                border-radius: 6px;
+                font-weight: bold;
+                padding: 8px;
+            }
+            QPushButton:hover {
+                background-color: #7d3c98;
+            }
+            QPushButton:pressed {
+                background-color: #6c3483;
             }
         """)
         
