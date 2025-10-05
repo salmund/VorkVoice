@@ -13,6 +13,7 @@ L'application se compose de deux parties principales :
 - **Interface Intuitive** : Une petite fenêtre de contrôle permet de démarrer, mettre en pause, reprendre et annuler l'enregistrement.
 - **Raccourcis Clavier** : Contrôlez l'enregistrement sans quitter votre application en cours.
 - **Dictionnaire Personnel** : Créez des remplacements personnalisés (ex: "Maya" -> "Maïa") pour corriger automatiquement les transcriptions.
+- **🤖 Intégration IA (Gemini)** : Traitez vos transcriptions avec l'IA Gemini de Google pour enrichir, reformuler ou générer du contenu. Voir [CONFIGURATION_IA.md](CONFIGURATION_IA.md) pour plus de détails.
 - **Auto-Collage (Optionnel)** : Le texte transcrit peut être automatiquement collé dans l'application active.
 - **Hot-Reload pour le Développement** : Un script de rechargement à chaud (`main.py`) redémarre automatiquement le client ou le serveur lors de la modification des fichiers sources, facilitant le développement.
 
@@ -21,6 +22,7 @@ L'application se compose de deux parties principales :
 - **Client (Frontend)** : Python, PyQt6
 - **Serveur (Backend)** : Python, FastAPI, Uvicorn
 - **Modèle de Transcription** : `faster-whisper` avec le modèle `whisper-large-v3-french`
+- **IA** : Google Gemini API via `google-generativeai`
 - **Dépendances Clés** : `torch`, `pyperclip`, `keyboard`, `watchdog`
 
 ## 🚀 Installation

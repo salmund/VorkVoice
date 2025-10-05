@@ -1,0 +1,28 @@
+# Core dependencies for VorkVoice
+
+# Audio processing
+sounddevice>=0.4.6
+soundfile>=0.12.1
+pyperclip>=1.8.2
+
+# Keyboard control
+keyboard>=0.13.5
+
+# Transcription (server-side)
+fastapi>=0.104.0
+uvicorn>=0.24.0
+torch>=2.0.0
+whisper>=1.0.0
+faster-whisper>=0.10.0
+
+# GUI (client-side)
+PyQt6>=6.6.0
+
+# API communication
+requests>=2.31.0
+
+# AI Integration (Gemini)
+google-generativeai>=0.3.0
+
+# Utilities
+numpy>=1.24.0
